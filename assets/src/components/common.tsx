@@ -1,7 +1,9 @@
 import Alert from 'antd/lib/alert';
 import Badge from 'antd/lib/badge';
 import Button from 'antd/lib/button';
+import Checkbox from 'antd/lib/checkbox';
 import DatePicker from 'antd/lib/date-picker';
+import Divider from 'antd/lib/divider';
 import Dropdown from 'antd/lib/dropdown';
 import Input from 'antd/lib/input';
 import Layout from 'antd/lib/layout';
@@ -52,7 +54,9 @@ export {
   Alert,
   Badge,
   Button,
+  Checkbox,
   DatePicker,
+  Divider,
   Dropdown,
   Input,
   Menu,

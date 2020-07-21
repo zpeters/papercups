@@ -268,3 +268,18 @@ export const authorizeSlackIntegration = async (
     .set('Authorization', token)
     .then((res) => res.body.data);
 };
+
+export const updateEmailNotificationSetting = async (
+  shouldSendAlert: boolean,
+  token = getAccessToken()
+) => {
+  if (!token) {
+    throw new Error('Invalid token!');
+  }
+
+  return request
+    .post(`/api/me`)
+    .send({email_alert_on_new_message: shouldSendAlert})
+    .set('Authorization', token)
+    .then((res) => res.body.data);
+};

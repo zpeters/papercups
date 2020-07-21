@@ -41,6 +41,8 @@ defmodule ChatApiWeb.Router do
     pipe_through([:api, :api_protected])
 
     get("/me", SessionController, :me)
+    # TODO: move out of SessionController?
+    post("/me", SessionController, :update)
     get("/accounts/me", AccountController, :me)
     get("/messages/count", MessageController, :count)
 

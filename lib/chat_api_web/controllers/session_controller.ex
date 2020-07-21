@@ -1,6 +1,8 @@
 defmodule ChatApiWeb.SessionController do
   use ChatApiWeb, :controller
 
+  alias ChatApi.Users
+  alias ChatApi.Users.User
   alias ChatApiWeb.APIAuthPlug
   alias Plug.Conn
 
@@ -55,13 +57,44 @@ defmodule ChatApiWeb.SessionController do
 
   def me(conn, _params) do
     case conn.assigns.current_user do
-      %{id: id, email: email, account_id: account_id} ->
-        json(conn, %{data: %{id: id, email: email, account_id: account_id}})
+      %{
+        id: id,
+        email: email,
+        account_id: account_id,
+        email_alert_on_new_message: email_alert_on_new_message
+      } ->
+        json(conn, %{
+          data: %{
+            id: id,
+            email: email,
+            account_id: account_id,
+            email_alert_on_new_message: email_alert_on_new_message
+          }
+        })
 
       nil ->
         conn
         |> put_status(401)
         |> json(%{error: %{status: 401, message: "Invalid token"}})
+    end
+  end
+
+  def update(conn, %{"email_alert_on_new_message" => email_alert_on_new_message}) do
+    current_user = conn.assigns.current_user
+    attrs = %{email_alert_on_new_message: email_alert_on_new_message}
+
+    with {:ok, %User{} = user} <- Users.update_user(current_user, attrs) do
+      IO.inspect(user)
+      IO.inspect(conn)
+      conn = assign(conn, :current_user, user)
+      IO.puts("AFTER")
+      IO.inspect(conn)
+
+      json(conn, %{
+        data: %{
+          ok: true
+        }
+      })
     end
   end
 end

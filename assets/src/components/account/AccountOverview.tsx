@@ -5,6 +5,8 @@ import {
   colors,
   notification,
   Button,
+  Checkbox,
+  Divider,
   Input,
   Paragraph,
   Table,
@@ -65,6 +67,18 @@ class AccountOverview extends React.Component<Props, State> {
     }
   };
 
+  updateEmailNotificationSetting = async (e: any) => {
+    try {
+      const shouldReceiveEmailAlert = e.target.checked;
+      await API.updateEmailNotificationSetting(shouldReceiveEmailAlert);
+      const currentUser = await API.me();
+
+      this.setState({currentUser});
+    } catch (err) {
+      console.log('Error!', err);
+    }
+  };
+
   renderUsersTable = (users: Array<any>) => {
     const {currentUser} = this.state;
     const data = users.map((u) => {
@@ -113,17 +127,46 @@ class AccountOverview extends React.Component<Props, State> {
   };
 
   render() {
-    const {account, inviteUrl} = this.state;
+    const {account, inviteUrl, currentUser} = this.state;
 
-    if (!account) {
+    if (!account || !currentUser) {
       return null;
     }
 
-    const {users = []} = account;
+    const {id: token, users = []} = account;
+    const {
+      email_alert_on_new_message: shouldReceiveEmailAlert = false,
+    } = currentUser;
 
     return (
       <Box p={4}>
-        <Box mb={5}>
+        <Box>
+          <Title level={3}>Account Overview</Title>
+          <Paragraph>
+            <Text>This is your account token: </Text>
+            <Text strong keyboard copyable>
+              {token}
+            </Text>
+          </Paragraph>
+        </Box>
+
+        <Divider />
+
+        <Box>
+          <Title level={4}>Notifications</Title>
+          <Paragraph>
+            <Checkbox
+              checked={shouldReceiveEmailAlert}
+              onChange={this.updateEmailNotificationSetting}
+            >
+              Receive messages via email
+            </Checkbox>
+          </Paragraph>
+        </Box>
+
+        <Divider />
+
+        <Box>
           <Title level={4}>Invite new teammate</Title>
 
           <Paragraph>
@@ -150,7 +193,9 @@ class AccountOverview extends React.Component<Props, State> {
           </Flex>
         </Box>
 
-        <Box mb={5}>
+        <Divider />
+
+        <Box mb={4}>
           <Title level={4}>Team</Title>
           {this.renderUsersTable(users)}
         </Box>
