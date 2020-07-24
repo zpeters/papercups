@@ -4,6 +4,7 @@ import {Box} from 'theme-ui';
 import {TwitterPicker} from 'react-color';
 import qs from 'query-string';
 import {colors, Input, Paragraph, Title} from '../common';
+import * as API from '../../api';
 // Testing widget in separate package
 import ChatWidget from '@papercups-io/chat-widget';
 
@@ -31,6 +32,16 @@ class Demo extends React.Component<Props, State> {
         defaultSubtitle || 'Ask us anything in the chat window below 😊',
       accountId: 'eb504736-0f20-4978-98ff-1a82ae60b266',
     };
+  }
+
+  async componentDidMount() {
+    try {
+      const {id: accountId} = await API.fetchAccountInfo();
+
+      this.setState({accountId});
+    } catch (err) {
+      // Do nothing
+    }
   }
 
   handleChangeTitle = (e: any) => {
