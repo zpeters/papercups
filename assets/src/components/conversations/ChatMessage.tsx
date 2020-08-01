@@ -25,12 +25,16 @@ const getSenderIdentifier = (customer?: Customer, user?: User) => {
 
 const SenderAvatar = ({
   isAgent,
+  isMe,
   name,
   user,
+  sx,
 }: {
   isAgent: boolean;
+  isMe?: boolean;
   name: string;
   user?: User;
+  sx: any;
 }) => {
   const profilePhotoUrl = user && user.profile_photo_url;
 
@@ -38,8 +42,7 @@ const SenderAvatar = ({
     return (
       <Tooltip title={name}>
         <Box
-          mr={2}
-          style={{
+          sx={{
             height: 32,
             width: 32,
             borderRadius: '50%',
@@ -49,6 +52,8 @@ const SenderAvatar = ({
             backgroundPosition: 'center',
             backgroundSize: 'cover',
             backgroundImage: `url(${profilePhotoUrl})`,
+
+            ...sx,
           }}
         />
       </Tooltip>
@@ -58,15 +63,15 @@ const SenderAvatar = ({
   return (
     <Tooltip title={name}>
       <Flex
-        mr={2}
         sx={{
-          bg: isAgent ? colors.primary : colors.gold,
+          bg: isMe ? colors.black : isAgent ? colors.primary : colors.gold,
           height: 32,
           width: 32,
           borderRadius: '50%',
           justifyContent: 'center',
           alignItems: 'center',
           color: '#fff',
+          ...sx,
         }}
       >
         {isAgent ? (
@@ -103,7 +108,7 @@ const ChatMessage = ({
   if (isMe) {
     return (
       <Box pr={0} pl={4} pb={isLastInGroup ? 3 : 2}>
-        <Flex sx={{justifyContent: 'flex-end'}}>
+        <Flex sx={{justifyContent: 'flex-end', alignItems: 'center'}}>
           <Box
             px={3}
             py={2}
@@ -115,9 +120,17 @@ const ChatMessage = ({
           >
             {body}
           </Box>
+
+          <SenderAvatar
+            sx={{ml: 2}}
+            name={tooltip}
+            user={user}
+            isAgent={isAgent}
+            isMe
+          />
         </Flex>
         {shouldDisplayTimestamp && (
-          <Flex m={1} sx={{justifyContent: 'flex-end'}}>
+          <Flex my={1} mx={2} pr={4} sx={{justifyContent: 'flex-end'}}>
             <Text type="secondary">Sent {timestamp}</Text>
           </Flex>
         )}
@@ -128,7 +141,12 @@ const ChatMessage = ({
   return (
     <Box pr={4} pl={0} pb={isLastInGroup ? 3 : 2}>
       <Flex sx={{justifyContent: 'flex-start', alignItems: 'center'}}>
-        <SenderAvatar name={tooltip} user={user} isAgent={isAgent} />
+        <SenderAvatar
+          sx={{mr: 2}}
+          name={tooltip}
+          user={user}
+          isAgent={isAgent}
+        />
 
         <Box
           px={3}
