@@ -10,7 +10,8 @@ import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import Demo from './components/demo/Demo';
 import Dashboard from './components/Dashboard';
-import Widget from './components/demo/Widget';
+// import Widget from './components/demo/Widget';
+import Widget from './components/widget/Widget';
 import './App.css';
 
 const App = () => {

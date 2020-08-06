@@ -14,7 +14,8 @@ import {
 } from '../common';
 import {RightCircleOutlined} from '../icons';
 // Testing widget in separate package
-import ChatWidget from '@papercups-io/chat-widget';
+// import ChatWidget from '@papercups-io/chat-widget';
+import ChatWidget from '../widget/Wrapper';
 
 type Props = RouteComponentProps & {};
 type State = {
