@@ -33,21 +33,29 @@ const EmbeddableWidget = ({
 
   const handleToggleOpen = () => setIsOpen(!isOpen);
 
+  console.log({isOpen});
+
   return (
     <ThemeProvider theme={theme}>
-      {isOpen && (
-        <motion.iframe
-          className="Papercups-chatWindowContainer"
-          initial={{opacity: 0, y: 4}}
-          animate={{opacity: 1, y: 0}}
-          transition={{duration: 0.2, ease: 'easeIn'}}
-          src="http://localhost:3000/widget"
-          sx={{
-            border: 'none',
-            variant: 'styles.WidgetContainer',
-          }}
-        ></motion.iframe>
-      )}
+      {/* {isOpen && ( */}
+      <motion.iframe
+        className="Papercups-chatWindowContainer"
+        // initial={{opacity: 0, y: 4}}
+        // animate={{opacity: 1, y: 0}}
+        animate={isOpen ? 'open' : 'closed'}
+        variants={{
+          closed: {opacity: 0, y: 4},
+          open: {opacity: 1, y: 0},
+        }}
+        transition={{duration: 0.2, ease: 'easeIn'}}
+        src="http://localhost:3000/widget"
+        style={isOpen ? {} : {bottom: -9999}}
+        sx={{
+          border: 'none',
+          variant: 'styles.WidgetContainer',
+        }}
+      ></motion.iframe>
+      {/* )} */}
       <motion.div
         className="Papercups-toggleButtonContainer"
         initial={false}

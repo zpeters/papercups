@@ -242,6 +242,8 @@ class ChatWindow extends React.Component<Props, State> {
   };
 
   render() {
+    console.log('Rendering!');
+
     const {title = 'Welcome!', subtitle = 'How can we help you?'} = this.props;
     const {customerId, message, messages = [], isSending} = this.state;
 
