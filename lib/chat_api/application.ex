@@ -15,7 +15,9 @@ defmodule ChatApi.Application do
       {Phoenix.PubSub, name: ChatApi.PubSub},
       ChatApiWeb.Presence,
       # Start the Endpoint (http/https)
-      ChatApiWeb.Endpoint
+      ChatApiWeb.Endpoint,
+      # Cache store for auth
+      {Redix, name: :redix}
       # Start a worker by calling: ChatApi.Worker.start_link(arg)
       # {ChatApi.Worker, arg}
     ]

@@ -45,7 +45,8 @@ end
 
 config :chat_api, :pow,
   user: ChatApi.Users.User,
-  repo: ChatApi.Repo
+  repo: ChatApi.Repo,
+  cache_store_backend: MyAppWeb.Pow.RedisCache
 
 # Configure Mailgun
 mailgun_api_key = System.get_env("MAILGUN_API_KEY")
